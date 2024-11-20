@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: '🎄 Christmas Countdown | Snow Animation & Timer 🎅',
+  title: 'Christmas Countdown | Snow Animation & Timer 🎅',
   description: 'Get ready for Christmas with our festive countdown timer. Watch the snow fall as you wait for the big day!',
   keywords: 'Christmas Countdown, Snow Animation, Festive Timer, Holiday Countdown, Christmas Tools',
 };
@@ -55,6 +55,9 @@ export default function RootLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      {/* Favicon */}
+      <link rel="icon" href="/fav.ico" sizes="any" />
     </head>
     <body className={`${geistSans.variable} ${geistMono.variable}`}>
     {children}
