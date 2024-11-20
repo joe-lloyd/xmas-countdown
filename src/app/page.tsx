@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Snowfall from '@/app/components/SnowFall';
-import AdSense from '@/app/components/AdSense';
 
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState<{
