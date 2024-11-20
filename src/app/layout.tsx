@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Script from 'next/script';
 import './globals.css';
 import React from 'react';
 
@@ -26,34 +25,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    'name': 'Christmas Countdown',
-    'startDate': '2024-12-25T00:00:00+00:00',
-    'description': 'A fun countdown to Christmas Day with live snowfall animation.',
-    'eventStatus': 'https://schema.org/EventScheduled',
-    'location': {
-      '@type': 'VirtualLocation',
-      'url': 'https://xmas-countdown.com',
-    },
-  };
 
   return (
     <html lang="en">
     <head>
-      {/* AdSense Script */}
-      <Script
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335320516280697"
-        data-ad-client="3335320516280697"
-        strategy="lazyOnload"
+      {/* AdSense.tsx Script */}
+      <script
         async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335320516280697"
+        crossOrigin="anonymous"
       />
 
       {/* JSON-LD Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Event",
+            name: "Christmas Countdown",
+            startDate: "2024-12-25T00:00:00+00:00",
+            description: "A fun countdown to Christmas Day with live snowfall animation.",
+            eventStatus: "https://schema.org/EventScheduled",
+            location: {
+              "@type": "VirtualLocation",
+              url: "https://yourwebsite.com",
+            },
+          }),
+        }}
       />
 
       {/* Favicon */}
