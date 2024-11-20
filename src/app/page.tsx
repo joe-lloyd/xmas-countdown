@@ -1,95 +1,78 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import Snowfall from '@/app/components/SnowFall';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number | null;
+    hours: number | null;
+    minutes: number | null;
+    seconds: number | null;
+  }>({
+    days: null,
+    hours: null,
+    minutes: null,
+    seconds: null,
+  });
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const countdownDate = new Date("December 25, 2024 00:00:00").getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+        });
+      }
+    };
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Run once immediately
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <>
+    <Snowfall />
+    <main className={styles.container}>
+      <h1 className={styles.title}>
+        🎄 <span>Christmas <br /> Countdown</span> 🎅
+      </h1>
+      <div className={styles.countdown}>
+        <div className={styles.timeBox}>
+          <span>
+            {timeLeft.days !== null ? timeLeft.days : <div className={styles.loader}></div>}
+          </span>
+          <label className={styles.label}>Days</label>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className={styles.timeBox}>
+          <span>
+            {timeLeft.hours !== null ? timeLeft.hours : <div className={styles.loader}></div>}
+          </span>
+          <label className={styles.label}>Hours</label>
+        </div>
+        <div className={styles.timeBox}>
+          <span>
+            {timeLeft.minutes !== null ? timeLeft.minutes : <div className={styles.loader}></div>}
+          </span>
+          <label className={styles.label}>Min</label>
+        </div>
+        <div className={styles.timeBox}>
+          <span>
+            {timeLeft.seconds !== null ? timeLeft.seconds : <div className={styles.loader}></div>}
+          </span>
+          <label className={styles.label}>Sec</label>
+        </div>
+      </div>
+    </main>
+    </>
   );
 }
